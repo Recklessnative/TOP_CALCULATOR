@@ -3,56 +3,62 @@ let operators = document.querySelectorAll(".operator");
 let screen = document.querySelector("#screen");
 let clear = document.querySelector("#clear");
 let operate = document.querySelector("#operate")
-let displayvalue = "";
+let displayValue = "";
 let operator = "";
 let num1=[];
 let num2=[];
 let counter=0;
 
 
-operate.addEventListener("click",calculateResult)
+operate.addEventListener("click",function(){
+    showOnScreen(calculateResult());
+});
 
 
 function calculateResult(){
     num2[0]=screen.textContent;
     if(operator == "+"){
-    displayvalue = add(num1[0], num2[0]);
-    screen.textContent=displayvalue;
+    displayValue = add(num1[0], num2[0]);
     }
     
     else if(operator == "-"){
-        displayvalue = substract(num1[0], num2[0]);
-        screen.textContent=displayvalue;
+        displayValue = substract(num1[0], num2[0]);
         }
     
     else if(operator == "*"){
-        displayvalue = multiply(num1[0], num2[0]);
-         screen.textContent=displayvalue;
+        displayValue = multiply(num1[0], num2[0]);
         }
     
     else if(operator == "/"){
-        displayvalue = divide(num1[0], num2[0]);
-        screen.textContent=displayvalue;
+        displayValue = divide(num1[0], num2[0]);
         }
     
-    
+    return displayValue;
     
     }
 
 function clearAll(){
-        displayvalue = "";
+        displayValue = "";
+        displayValue2= "";
         screen.textContent="";
         num1 = [];
         num2 = [];
 }
 
+function showOnScreen(){
+    screen.textContent=displayValue;
+
+
+}
+
 clear.addEventListener("click", clearAll)
+
 
 
 numbers.forEach(btn =>{
 btn.addEventListener("click", (e)=>{
-displayvalue += e.target.textContent;
-screen.textContent=displayvalue;
+displayValue += e.target.textContent;
+showOnScreen();
 
 })
 
@@ -61,20 +67,17 @@ screen.textContent=displayvalue;
 
 operators.forEach(btn =>{
 btn.addEventListener("click",(e)=>{
-operator = e.target.textContent;
-if(counter==0){
+if(num1.length==0){operator = e.target.textContent;
 num1[0]=screen.textContent;
-screen.textContent="";
-displayvalue = "";
+displayValue = "";}
+
+else{
+showOnScreen(calculateResult());
+num1[0]=displayValue;
+displayValue="";
 }
 
-else {
-    
-screen.textContent=""
 
-}
-
-counter++;
 
 })
 
