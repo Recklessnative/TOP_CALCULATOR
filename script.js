@@ -7,7 +7,7 @@ let displayValue = "";
 let operator = "";
 let num1=[];
 let num2=[];
-let counter=0;
+
 
 
 operate.addEventListener("click",function(){
@@ -30,7 +30,9 @@ function calculateResult(){
         }
     
     else if(operator == "/"){
-        displayValue = divide(num1[0], num2[0]);
+        if(num2[0] != 0){
+        displayValue = divide(num1[0], num2[0]);}
+        else{displayValue="Dividing by zero is not possible my friend!"}
         }
     
     return displayValue;
@@ -39,7 +41,6 @@ function calculateResult(){
 
 function clearAll(){
         displayValue = "";
-        displayValue2= "";
         screen.textContent="";
         num1 = [];
         num2 = [];
@@ -53,21 +54,28 @@ function showOnScreen(){
 
 clear.addEventListener("click", clearAll)
 
-
+document.addEventListener('keydown', logKey); //USE KEYINPUT
 
 numbers.forEach(btn =>{
 btn.addEventListener("click", (e)=>{
-displayValue += e.target.textContent;
-showOnScreen();
+if (e.target.value == "." && displayValue.indexOf(".")==-1){
+    displayValue += e.target.value;
+    showOnScreen();
+}
 
+else if(e.target.value!=".") {
+    displayValue += e.target.value;
+    showOnScreen();
+}
 })
 
 })
+
 
 
 operators.forEach(btn =>{
 btn.addEventListener("click",(e)=>{
-if(num1.length==0){operator = e.target.textContent;
+if(num1.length==0){operator = e.target.value;
 num1[0]=screen.textContent;
 displayValue = "";}
 
@@ -104,3 +112,43 @@ return +num1/+num2;
 
 }
 
+
+function keyCodeToNumber(target) {
+    switch (target) {
+        case 96:
+          return 0;
+        case 97:
+          return 1;
+        case 98:
+          return 2;
+        case 99:
+           return 3;
+        case 100:
+          return 4;
+          break;
+        case 101:
+          return 5;
+        case 102:
+          return 6;
+        case 103:
+          return 7;
+        case 104:
+            return 8;
+        case 105:
+            return 9;
+        case 107:
+            return "+";
+        case 109:
+            return "-";
+        case 110:
+            return ".";
+        case 111:
+            return "/";
+       case 13:
+           calculateResult();
+        case 8:
+            clearAll();
+      }
+
+
+}
